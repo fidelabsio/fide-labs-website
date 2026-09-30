@@ -5,6 +5,7 @@ import { SITE_URL } from "./lib/routes";
 import SiteProviders from "./components/SiteProviders";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Intercom from "./components/Intercom";
 
 const display = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -105,6 +106,7 @@ export default function RootLayout({
           <main id="main">{children}</main>
           <Footer />
         </SiteProviders>
+        <Intercom />
       </body>
     </html>
   );
