@@ -54,7 +54,7 @@ export default function SiteProviders({
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);1
+  }, []);
 
   // Reveal-on-scroll, re-run whenever the route changes.
   useEffect(() => {
