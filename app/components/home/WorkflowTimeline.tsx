@@ -58,13 +58,15 @@ export default function WorkflowTimeline() {
     const list = listRef.current;
     if (!list) return;
 
+    let raf = 0;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setFill(1);
-      setActive(STEPS.length);
-      return;
+      raf = requestAnimationFrame(() => {
+        setFill(1);
+        setActive(STEPS.length);
+      });
+      return () => cancelAnimationFrame(raf);
     }
 
-    let raf = 0;
     const update = () => {
       raf = 0;
       const nodes = Array.from(list.querySelectorAll<HTMLElement>("[data-node]"));
@@ -82,7 +84,7 @@ export default function WorkflowTimeline() {
       if (!raf) raf = requestAnimationFrame(update);
     };
 
-    update();
+    raf = requestAnimationFrame(update);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
@@ -100,7 +102,7 @@ export default function WorkflowTimeline() {
 
         {/* sticky heading */}
         <div className="text-center min-[900px]:sticky min-[900px]:top-28 min-[900px]:self-start min-[900px]:text-left">
-          <p className="font-[family-name:var(--font-mono)] text-[14px] font-medium tracking-[0.08em] text-brand-teal">// How It Works</p>
+          <p className="font-[family-name:var(--font-mono)] text-[14px] font-medium tracking-[0.08em] text-brand-teal">{"// How It Works"}</p>
           <h2 className="mt-4 font-[family-name:var(--font-display)] text-[clamp(32px,3.6vw,48px)] font-bold leading-[1.18] tracking-tight text-gray-900">
             From Quote Request to{" "}
             <span className="mt-2 inline-block rounded-[10px] bg-gradient-to-r from-brand-blue to-brand-teal px-3 pb-1.5 pt-1 leading-none text-white">Revenue</span>
